@@ -8,6 +8,7 @@ import com.tugalsan.api.sql.resultset.server.*;
 import com.tugalsan.api.sql.sanitize.server.*;
 import com.tugalsan.api.sql.update.server.*;
 import com.tugalsan.api.string.client.*;
+import com.tugalsan.api.unsafe.client.*;
 
 public class TS_SQLDBUtils {
 
@@ -28,61 +29,53 @@ public class TS_SQLDBUtils {
             if (rs.row.isEmpty()) {
                 return;
             }
-            try {
-                r.value0 = rs.str.get(0, 0);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            TGS_UnSafe.execute(() -> r.value0 = rs.str.get(0, 0));
         });
         return r.value0;
     }
 
     public static void meta(TS_SQLConnAnchor anchor, TGS_ExecutableType1<DatabaseMetaData> executor) {
         TS_SQLConnWalkUtils.con(anchor, con -> {
-            try {
+            TGS_UnSafe.execute(() -> {
                 executor.execute(con.getMetaData());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            });
         });
     }
 
     public static void catalog(TS_SQLConnAnchor anchor, TGS_ExecutableType1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
-            try ( var rs = meta.getCatalogs();) {
-                executor.execute(new TS_SQLResultSet(rs));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            TGS_UnSafe.execute(() -> {
+                try ( var rs = meta.getCatalogs();) {
+                    executor.execute(new TS_SQLResultSet(rs));
+                }
+            });
         });
     }
 
     public static void typeInfo(TS_SQLConnAnchor anchor, TGS_ExecutableType1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
-            try ( var rs = meta.getTypeInfo();) {
-                executor.execute(new TS_SQLResultSet(rs));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            TGS_UnSafe.execute(() -> {
+                try ( var rs = meta.getTypeInfo();) {
+                    executor.execute(new TS_SQLResultSet(rs));
+                }
+            });
         });
     }
 
     public static TS_SQLDBTypeInfo typeInfo(TS_SQLConnAnchor anchor) {
-        TS_SQLDBTypeInfo r = new TS_SQLDBTypeInfo();
-        TS_SQLDBUtils.typeInfo(anchor, tInfo -> {
+        var r = new TS_SQLDBTypeInfo();
+        typeInfo(anchor, tInfo -> {
             if (tInfo.row.isEmpty()) {
                 return;
             }
-            try {
+            TGS_UnSafe.execute(() -> {
                 tInfo.row.scrll(0);
                 r.TYPE_NAME = tInfo.str.get("TYPE_NAME");
                 r.DATA_TYPE = tInfo.resultSet.getShort("DATA_TYPE");
                 r.CREATE_PARAMS = tInfo.str.get("CREATE_PARAMS");
                 r.NULLABLE = tInfo.resultSet.getInt("NULLABLE");
                 r.CASE_SENSITIVE = tInfo.resultSet.getBoolean("CASE_SENSITIVE");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            });
         });
         return r;
     }
