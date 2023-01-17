@@ -16,7 +16,7 @@ public class TS_SQLDBUtils {
         return TGS_StringUtils.isPresent(loc(anchor));
     }
 
-    public static int createIfNotExists(TS_SQLConnAnchor anchor) {
+    public static TS_SQLConnStmtUpdateResult createIfNotExists(TS_SQLConnAnchor anchor) {
         var dbName = anchor.config.dbName;
         TS_SQLSanitizeUtils.sanitize(dbName);
         var sql = "CREATE DATABASE IF NOT EXISTS ".concat(dbName);
