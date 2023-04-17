@@ -1,7 +1,7 @@
 package com.tugalsan.api.sql.db.server;
 
 import java.sql.*;
-import com.tugalsan.api.executable.client.*;
+import com.tugalsan.api.runnable.client.*;
 import com.tugalsan.api.pack.client.*;
 import com.tugalsan.api.sql.conn.server.*;
 import com.tugalsan.api.sql.resultset.server.*;
@@ -29,34 +29,34 @@ public class TS_SQLDBUtils {
             if (rs.row.isEmpty()) {
                 return;
             }
-            TGS_UnSafe.execute(() -> r.value0 = rs.str.get(0, 0));
+            TGS_UnSafe.run(() -> r.value0 = rs.str.get(0, 0));
         });
         return r.value0;
     }
 
-    public static void meta(TS_SQLConnAnchor anchor, TGS_ExecutableType1<DatabaseMetaData> executor) {
+    public static void meta(TS_SQLConnAnchor anchor, TGS_RunnableType1<DatabaseMetaData> executor) {
         TS_SQLConnWalkUtils.con(anchor, con -> {
-            TGS_UnSafe.execute(() -> {
-                executor.execute(con.getMetaData());
+            TGS_UnSafe.run(() -> {
+                executor.run(con.getMetaData());
             });
         });
     }
 
-    public static void catalog(TS_SQLConnAnchor anchor, TGS_ExecutableType1<TS_SQLResultSet> executor) {
+    public static void catalog(TS_SQLConnAnchor anchor, TGS_RunnableType1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
-            TGS_UnSafe.execute(() -> {
+            TGS_UnSafe.run(() -> {
                 try ( var rs = meta.getCatalogs();) {
-                    executor.execute(new TS_SQLResultSet(rs));
+                    executor.run(new TS_SQLResultSet(rs));
                 }
             });
         });
     }
 
-    public static void typeInfo(TS_SQLConnAnchor anchor, TGS_ExecutableType1<TS_SQLResultSet> executor) {
+    public static void typeInfo(TS_SQLConnAnchor anchor, TGS_RunnableType1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
-            TGS_UnSafe.execute(() -> {
+            TGS_UnSafe.run(() -> {
                 try ( var rs = meta.getTypeInfo();) {
-                    executor.execute(new TS_SQLResultSet(rs));
+                    executor.run(new TS_SQLResultSet(rs));
                 }
             });
         });
@@ -68,7 +68,7 @@ public class TS_SQLDBUtils {
             if (tInfo.row.isEmpty()) {
                 return;
             }
-            TGS_UnSafe.execute(() -> {
+            TGS_UnSafe.run(() -> {
                 tInfo.row.scrll(0);
                 r.TYPE_NAME = tInfo.str.get("TYPE_NAME");
                 r.DATA_TYPE = tInfo.resultSet.getShort("DATA_TYPE");
