@@ -2,7 +2,7 @@ package com.tugalsan.api.sql.db.server;
 
 import java.sql.*;
 import com.tugalsan.api.runnable.client.*;
-import com.tugalsan.api.pack.client.*;
+import com.tugalsan.api.tuple.client.*;
 import com.tugalsan.api.sql.conn.server.*;
 import com.tugalsan.api.sql.resultset.server.*;
 import com.tugalsan.api.sql.sanitize.server.*;
@@ -24,7 +24,7 @@ public class TS_SQLDBUtils {
     }
 
     public static String loc(TS_SQLConnAnchor achor) {
-        TGS_Pack1<String> r = new TGS_Pack1();
+        TGS_Tuple1<String> r = new TGS_Tuple1();
         catalog(achor, rs -> {
             if (rs.row.isEmpty()) {
                 return;
