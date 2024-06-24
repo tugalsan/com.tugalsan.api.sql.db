@@ -1,6 +1,6 @@
 module com.tugalsan.api.sql.db {
     requires java.sql;
-    requires com.tugalsan.api.runnable;
+    requires com.tugalsan.api.callable;
     requires com.tugalsan.api.unsafe;
     requires com.tugalsan.api.tuple;
     requires com.tugalsan.api.string;
