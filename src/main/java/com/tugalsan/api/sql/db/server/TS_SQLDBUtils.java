@@ -14,7 +14,7 @@ import com.tugalsan.api.unsafe.client.*;
 public class TS_SQLDBUtils {
 
     public static boolean exists(TS_SQLConnAnchor anchor) {
-        return TGS_StringUtils.isPresent(loc(anchor));
+        return TGS_StringUtils.cmn().isPresent(loc(anchor));
     }
 
     public static TS_SQLConnStmtUpdateResult createIfNotExists(TS_SQLConnAnchor anchor) {
