@@ -1,6 +1,6 @@
 package com.tugalsan.api.sql.db.server;
 
-import com.tugalsan.api.callable.client.TGS_CallableType1Void;
+import com.tugalsan.api.callable.client.TGS_CallableType1_Run;
 import java.sql.*;
 
 import com.tugalsan.api.tuple.client.*;
@@ -35,7 +35,7 @@ public class TS_SQLDBUtils {
         return r.value0;
     }
 
-    public static void meta(TS_SQLConnAnchor anchor, TGS_CallableType1Void<DatabaseMetaData> executor) {
+    public static void meta(TS_SQLConnAnchor anchor, TGS_CallableType1_Run<DatabaseMetaData> executor) {
         TS_SQLConnWalkUtils.con(anchor, con -> {
             TGS_UnSafe.run(() -> {
                 executor.run(con.getMetaData());
@@ -43,7 +43,7 @@ public class TS_SQLDBUtils {
         });
     }
 
-    public static void catalog(TS_SQLConnAnchor anchor, TGS_CallableType1Void<TS_SQLResultSet> executor) {
+    public static void catalog(TS_SQLConnAnchor anchor, TGS_CallableType1_Run<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
             TGS_UnSafe.run(() -> {
                 try ( var rs = meta.getCatalogs();) {
@@ -53,7 +53,7 @@ public class TS_SQLDBUtils {
         });
     }
 
-    public static void typeInfo(TS_SQLConnAnchor anchor, TGS_CallableType1Void<TS_SQLResultSet> executor) {
+    public static void typeInfo(TS_SQLConnAnchor anchor, TGS_CallableType1_Run<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
             TGS_UnSafe.run(() -> {
                 try ( var rs = meta.getTypeInfo();) {
