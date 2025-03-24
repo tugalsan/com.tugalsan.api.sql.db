@@ -1,7 +1,7 @@
 package com.tugalsan.api.sql.db.server;
 
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
-import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCE_In1;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTU_In1;
 import java.sql.*;
 
 import com.tugalsan.api.tuple.client.*;
@@ -31,22 +31,22 @@ public class TS_SQLDBUtils {
             if (rs.row.isEmpty()) {
                 return;
             }
-            TGS_FuncMTCEUtils.run(() -> r.value0 = rs.str.get(0, 0));
+            TGS_FuncMTCUtils.run(() -> r.value0 = rs.str.get(0, 0));
         });
         return r.value0;
     }
 
-    public static void meta(TS_SQLConnAnchor anchor, TGS_FuncMTUCE_In1<DatabaseMetaData> executor) {
+    public static void meta(TS_SQLConnAnchor anchor, TGS_FuncMTU_In1<DatabaseMetaData> executor) {
         TS_SQLConnWalkUtils.con(anchor, con -> {
-            TGS_FuncMTCEUtils.run(() -> {
+            TGS_FuncMTCUtils.run(() -> {
                 executor.run(con.getMetaData());
             });
         });
     }
 
-    public static void catalog(TS_SQLConnAnchor anchor, TGS_FuncMTUCE_In1<TS_SQLResultSet> executor) {
+    public static void catalog(TS_SQLConnAnchor anchor, TGS_FuncMTU_In1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
-            TGS_FuncMTCEUtils.run(() -> {
+            TGS_FuncMTCUtils.run(() -> {
                 try ( var rs = meta.getCatalogs();) {
                     executor.run(new TS_SQLResultSet(rs));
                 }
@@ -54,9 +54,9 @@ public class TS_SQLDBUtils {
         });
     }
 
-    public static void typeInfo(TS_SQLConnAnchor anchor, TGS_FuncMTUCE_In1<TS_SQLResultSet> executor) {
+    public static void typeInfo(TS_SQLConnAnchor anchor, TGS_FuncMTU_In1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
-            TGS_FuncMTCEUtils.run(() -> {
+            TGS_FuncMTCUtils.run(() -> {
                 try ( var rs = meta.getTypeInfo();) {
                     executor.run(new TS_SQLResultSet(rs));
                 }
@@ -70,7 +70,7 @@ public class TS_SQLDBUtils {
             if (tInfo.row.isEmpty()) {
                 return;
             }
-            TGS_FuncMTCEUtils.run(() -> {
+            TGS_FuncMTCUtils.run(() -> {
                 tInfo.row.scrll(0);
                 r.TYPE_NAME = tInfo.str.get("TYPE_NAME");
                 r.DATA_TYPE = tInfo.resultSet.getShort("DATA_TYPE");
