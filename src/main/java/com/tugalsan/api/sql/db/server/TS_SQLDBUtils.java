@@ -37,7 +37,7 @@ public class TS_SQLDBUtils {
     }
 
     public static void meta(TS_SQLConnAnchor anchor, TGS_FuncMTU_In1<DatabaseMetaData> executor) {
-        TS_SQLConnWalkUtils.con(anchor, con -> {
+        anchor.conRatedLimited(con -> {
             TGS_FuncMTCUtils.run(() -> {
                 executor.run(con.getMetaData());
             });
