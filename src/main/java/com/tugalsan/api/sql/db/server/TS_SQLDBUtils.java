@@ -13,6 +13,10 @@ import com.tugalsan.api.string.client.*;
 
 
 public class TS_SQLDBUtils {
+    
+    private TS_SQLDBUtils(){
+        
+    }
 
     public static boolean exists(TS_SQLConnAnchor anchor) {
         return TGS_StringUtils.cmn().isPresent(loc(anchor));
@@ -37,7 +41,7 @@ public class TS_SQLDBUtils {
     }
 
     public static void meta(TS_SQLConnAnchor anchor, TGS_FuncMTU_In1<DatabaseMetaData> executor) {
-        anchor.conRatedLimited(con -> {
+        anchor.con_RatedLimited_MaxTimeout(con -> {
             TGS_FuncMTCUtils.run(() -> {
                 executor.run(con.getMetaData());
             });
