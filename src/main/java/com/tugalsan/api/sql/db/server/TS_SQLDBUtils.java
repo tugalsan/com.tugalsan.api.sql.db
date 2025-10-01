@@ -1,21 +1,18 @@
 package com.tugalsan.api.sql.db.server;
 
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTU_In1;
-import java.sql.*;
-
-import com.tugalsan.api.tuple.client.*;
-import com.tugalsan.api.sql.conn.server.*;
-import com.tugalsan.api.sql.resultset.server.*;
-import com.tugalsan.api.sql.sanitize.server.*;
-import com.tugalsan.api.sql.update.server.*;
-import com.tugalsan.api.string.client.*;
-
+import module com.tugalsan.api.tuple;
+import module com.tugalsan.api.sql.conn;
+import module com.tugalsan.api.sql.resultset;
+import module com.tugalsan.api.sql.sanitize;
+import module com.tugalsan.api.sql.update;
+import module com.tugalsan.api.string;
+import module com.tugalsan.api.function;
+import module java.sql;
 
 public class TS_SQLDBUtils {
-    
-    private TS_SQLDBUtils(){
-        
+
+    private TS_SQLDBUtils() {
+
     }
 
     public static boolean exists(TS_SQLConnAnchor anchor) {
@@ -51,7 +48,7 @@ public class TS_SQLDBUtils {
     public static void catalog(TS_SQLConnAnchor anchor, TGS_FuncMTU_In1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
             TGS_FuncMTCUtils.run(() -> {
-                try ( var rs = meta.getCatalogs();) {
+                try (var rs = meta.getCatalogs();) {
                     executor.run(new TS_SQLResultSet(rs));
                 }
             });
@@ -61,7 +58,7 @@ public class TS_SQLDBUtils {
     public static void typeInfo(TS_SQLConnAnchor anchor, TGS_FuncMTU_In1<TS_SQLResultSet> executor) {
         meta(anchor, meta -> {
             TGS_FuncMTCUtils.run(() -> {
-                try ( var rs = meta.getTypeInfo();) {
+                try (var rs = meta.getTypeInfo();) {
                     executor.run(new TS_SQLResultSet(rs));
                 }
             });
